@@ -1,0 +1,13 @@
+--- a/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/rwnx_main.c
++++ b/src/USB/driver_fw/drivers/aic8800/aic8800_fdrv/rwnx_main.c
+@@ -4514,6 +4514,10 @@ static int rwnx_cfg80211_get_tx_power(st
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0)
+  struct wireless_dev *wdev,
+ #endif
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 17, 0)
++ int radio_idx,
++ unsigned int link_id,
++#endif
+ 	int *mbm)
+ {
+     #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
