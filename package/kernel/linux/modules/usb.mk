@@ -25,7 +25,9 @@ $(eval $(call KernelPackage,usb-common))
 define KernelPackage/usb-core
   SUBMENU:=$(USB_MENU)
   TITLE:=Support for USB
-  DEPENDS:=@USB_SUPPORT +USB_SUPPORT:kmod-usb-common
+  # rockchip/armv8 builds CONFIG_USB_COMMON into the kernel, so no
+  # separately installable kmod-usb-common package exists.
+  DEPENDS:=@USB_SUPPORT
   KCONFIG:=CONFIG_USB CONFIG_XPS_USB_HCD_XILINX=n CONFIG_USB_FHCI_HCD=n
   FILES:=$(LINUX_DIR)/drivers/usb/core/usbcore.ko
   AUTOLOAD:=$(call AutoLoad,20,usbcore,1)
