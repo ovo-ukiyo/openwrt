@@ -1,0 +1,23 @@
+--- a/arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dts
+@@ -37,12 +37,18 @@
+ 		};
+ 	};
+ 
+-	rfkill {
+-		compatible = "rfkill-gpio";
++	wifi_chip_en: regulator-wifi-chip-en {
++		compatible = "regulator-fixed";
++		regulator-name = "wifi_chip_en";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++		enable-active-high;
++		gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
++		startup-delay-us = <5000>;
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&wifi_en_h>;
+-		radio-type = "wlan";
+-		shutdown-gpios = <&gpio2 RK_PD1 GPIO_ACTIVE_HIGH>;
+ 	};
