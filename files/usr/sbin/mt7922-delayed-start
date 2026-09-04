@@ -1,0 +1,31 @@
+#!/bin/sh
+
+TAG="mt7922-rebind"
+WAITED=0
+WAIT_LIMIT=150
+
+logger -t "$TAG" "holding radio2 until AIC8800 AP is ready"
+
+while [ "$WAITED" -lt "$WAIT_LIMIT" ]; do
+	if [ -r /sys/class/net/phy1-ap0/operstate ] &&
+	   [ "$(cat /sys/class/net/phy1-ap0/operstate)" = "up" ]; then
+		logger -t "$TAG" "AIC8800 AP ready after ${WAITED}s"
+		break
+	fi
+	sleep 1
+	WAITED=$((WAITED + 1))
+done
+
+sleep 2
+
+BDF="$(cat /var/run/mt7922-rebind.bdf 2>/dev/null)"
+if [ -n "$BDF" ] && [ ! -L "/sys/bus/pci/devices/$BDF/driver" ]; then
+	logger -t "$TAG" "binding $BDF after AIC8800 startup"
+	echo "$BDF" > /sys/bus/pci/drivers/mt7921e/bind
+	logger -t "$TAG" "bound $BDF"
+fi
+
+uci -q delete wireless.radio2.disabled
+uci commit wireless
+wifi up radio2
+logger -t "$TAG" "released radio2 for netifd"

@@ -1,0 +1,32 @@
+#!/bin/sh /etc/rc.common
+
+START=18
+STOP=89
+USE_PROCD=1
+
+start_service() {
+	local dev bdf
+
+	uci set wireless.radio2.disabled='1'
+	uci commit wireless
+
+	for dev in /sys/bus/pci/devices/*; do
+		[ -r "$dev/vendor" ] || continue
+		[ -r "$dev/device" ] || continue
+		[ "$(cat "$dev/vendor")" = "0x14c3" ] || continue
+		[ "$(cat "$dev/device")" = "0x0616" ] || continue
+		[ -L "$dev/driver" ] || continue
+
+		bdf="${dev##*/}"
+		logger -t mt7922-rebind "unbinding $bdf before AIC8800 regulatory setup"
+		echo "$bdf" > /sys/bus/pci/drivers/mt7921e/unbind
+		echo "$bdf" > /var/run/mt7922-rebind.bdf
+		break
+	done
+
+	procd_open_instance
+	procd_set_param command /usr/sbin/mt7922-delayed-start
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+	procd_close_instance
+}
