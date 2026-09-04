@@ -4,7 +4,7 @@
 
 define Device/rk3308
   SOC := rk3308
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/rk3328
@@ -19,17 +19,17 @@ endef
 
 define Device/rk3528
   SOC := rk3528
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/rk3566
   SOC := rk3566
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/rk3568
   SOC := rk3568
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/rk3576
@@ -39,17 +39,17 @@ endef
 
 define Device/rk3582
   SOC := rk3582
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/rk3588
   SOC := rk3588
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/rk3588s
   SOC := rk3588s
-  KERNEL_LOADADDR := 0x03000000
+  KERNEL_LOADADDR := 0x48000000
 endef
 
 define Device/armsom_sige7
